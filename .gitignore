@@ -1,0 +1,18 @@
+# Legacy package (read-only reference, not part of this repo)
+/sso-pterodactyl/
+
+# Dependencies
+/vendor/
+/composer.lock
+
+# Tooling caches
+/.phpunit.cache/
+/.phpunit.result.cache
+/.pint.cache
+/coverage/
+
+# IDE / OS
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
