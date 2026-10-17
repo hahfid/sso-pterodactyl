@@ -8,9 +8,3 @@ parameters:
         - tests
     excludePaths:
         - tests/Stubs
-    ignoreErrors:
-        # The route file statically references the controllers delivered in Tasks 3-4.
-        # Remove this block once SsoWebhookController and SsoLoginController exist.
-        -
-            identifier: class.notFound
-            path: src/routes/web.php
