@@ -54,6 +54,22 @@ class SsoWebhookTest extends TestCase
             ->assertJson(['success' => false, 'message' => 'Please provide valid credentials']);
     }
 
+    public function test_rejects_missing_secret(): void
+    {
+        $user = $this->user();
+
+        $this->get('/panel-sso?user_id='.$user->id)
+            ->assertStatus(403)
+            ->assertJson(['success' => false, 'message' => 'Please provide valid credentials']);
+    }
+
+    public function test_rejects_missing_user_id(): void
+    {
+        $this->get('/panel-sso?sso_secret='.self::SECRET)
+            ->assertStatus(404)
+            ->assertJson(['success' => false, 'message' => 'User does not exist']);
+    }
+
     public function test_rejects_unknown_user(): void
     {
         $this->get('/panel-sso?sso_secret='.self::SECRET.'&user_id=999999')

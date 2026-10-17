@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PanelSso\Tests\Feature;
 
+use PanelSso\Http\Controllers\SsoLoginController;
 use PanelSso\Support\SsoToken;
 use PanelSso\Tests\TestCase;
 
@@ -16,6 +17,26 @@ class SsoLoginTest extends TestCase
 
         $this->get('/panel-sso/'.$token)->assertRedirect('/');
 
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_regenerates_the_session_id_after_login(): void
+    {
+        $user = $this->user();
+        $token = app(SsoToken::class)->create($user->id);
+
+        // Call the controller directly on an already-started session: HTTP test
+        // requests swap the session id on their own (they carry no session
+        // cookie), so only code running here may change it. Laravel's own
+        // SessionGuard regenerates on login too (updateSession), so this test
+        // pins the session-fixation property, not one particular call.
+        $this->app['session']->start();
+        $this->assertGuest();
+        $before = $this->app['session']->getId();
+
+        app(SsoLoginController::class)->handle($token);
+
+        $this->assertNotSame($before, $this->app['session']->getId());
         $this->assertAuthenticatedAs($user);
     }
 
