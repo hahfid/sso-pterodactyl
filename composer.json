@@ -1,0 +1,45 @@
+{
+    "name": "panelsso/pterodactyl",
+    "description": "Single sign-on bridge that lets your clients log into their Pterodactyl panel account with one redirect.",
+    "keywords": ["pterodactyl", "sso", "laravel"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.2 || ^8.3",
+        "laravel/framework": "^12.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PanelSso\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PanelSso\\Tests\\": "tests/",
+            "Pterodactyl\\": "tests/Stubs/Pterodactyl/"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "lint": "@php vendor/bin/pint",
+        "analyse": "@php vendor/bin/phpstan analyse"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PanelSso\\SsoServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
